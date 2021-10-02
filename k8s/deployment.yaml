@@ -1,0 +1,35 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: web-conversao-peso
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: web-conversao-peso
+  template:
+    metadata:
+      labels:
+        app: web-conversao-peso
+    spec:
+      containers:
+        - name: web-conversao-peso
+          image: throne82/conversao-peso:latest
+          resources:
+            limits:
+              memory: 512Mi
+              cpu: "1"
+          ports:
+            - containerPort: 80
+---
+#service 
+apiVersion: v1
+kind: Service
+metadata:
+  name: web-conversao-peso
+spec:
+  selector:
+    app: web-conversao-peso
+  ports:
+    - port: 80
+  type: NodePort
